@@ -24,8 +24,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// Test endpoint
+// Test endpoint with explicit logging
 app.get("/test", (req, res) => {
+    console.log("API call received at /test endpoint"); // Added test logging
     res.json({ message: "Server is alive" });
 });
 
