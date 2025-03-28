@@ -5,7 +5,15 @@ import { nanoid } from "nanoid";
 const app = express();
 const PORT = process.env.PORT || 5002;
 
-app.use(cors());
+// Explicit CORS configuration
+app.use(cors({
+  origin: "*", // Allow all origins (for testing), or specify your frontend origin (e.g., "http://localhost:3000")
+  methods: ["GET", "POST", "OPTIONS"], // Explicitly allow these methods
+  allowedHeaders: ["Content-Type"], // Allow this header
+}));
+
+// Handle OPTIONS preflight requests explicitly (redundant with cors(), but ensures compatibility)
+app.options("*", cors());
 
 // Custom JSON parsing with error handling
 app.use((req, res, next) => {
@@ -24,9 +32,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// Test endpoint with explicit logging
+// Test endpoint
 app.get("/test", (req, res) => {
-    console.log("API call received at /test endpoint"); // Added test logging
+    console.log("API call received at /test endpoint");
     res.json({ message: "Server is alive" });
 });
 
@@ -35,12 +43,14 @@ const urlMap = new Map();
 // Shorten endpoint
 app.post("/shorten", (req, res) => {
     try {
+        console.log("Received /shorten request with body:", req.body);
         const { url } = req.body;
         if (!url) {
             console.log("Missing URL in request body");
             return res.status(400).json({ error: "URL is required" });
         }
 
+        console.log("Original URL received:", url);
         const shortId = nanoid(6);
         urlMap.set(shortId, url);
 
