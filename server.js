@@ -5,9 +5,18 @@ import { nanoid } from "nanoid";
 const app = express();
 const PORT = process.env.PORT || 5002;
 
-// Middleware
-app.use(express.json());
-app.use(cors()); // Allows frontend requests
+app.use(cors());
+
+// Custom JSON parsing with error handling
+app.use((req, res, next) => {
+    express.json()(req, res, (err) => {
+        if (err) {
+            console.error("Invalid JSON:", err.message, "Body:", req.body);
+            return res.status(400).json({ error: "Invalid JSON payload" });
+        }
+        next();
+    });
+});
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -34,7 +43,6 @@ app.post("/shorten", (req, res) => {
         const shortId = nanoid(6);
         urlMap.set(shortId, url);
 
-        // Hardcode base URL for Render, since req.headers.host might not work as expected
         const baseUrl = "https://shrinkit-backend-nmzi.onrender.com";
         const shortUrl = `${baseUrl}/${shortId}`;
         
@@ -63,7 +71,6 @@ app.get("/:shortId", (req, res) => {
     }
 });
 
-// Health check for Render (optional)
 app.get("/", (req, res) => {
     res.json({ status: "OK" });
 });
