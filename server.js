@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5002;
 
 // Explicit CORS middleware
 app.use(cors({
-  origin: "*", // Allow all origins (adjust to specific origin in production)
+  origin: "https://serverbackend-psi.vercel.app/", // Allow all origins (adjust to specific origin in production)
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Accept"],
   credentials: false, // No credentials needed for your use case
