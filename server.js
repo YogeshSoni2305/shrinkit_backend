@@ -14,9 +14,9 @@ app.use(cors({
 }));
 
 // Manually handle OPTIONS preflight requests
-app.options("*", (req, res) => {
+app.options("https://serverbackend-psi.vercel.app/", (req, res) => {
   console.log("Handling OPTIONS preflight for:", req.url);
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "https://serverbackend-psi.vercel.app/");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
   res.sendStatus(204); // No content for OPTIONS
