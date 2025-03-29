@@ -7,14 +7,14 @@ const PORT = process.env.PORT || 5002;
 
 // Explicit CORS middleware
 app.use(cors({
-  origin: "https://serverbackend-psi.vercel.app/", // Allow all origins (adjust to specific origin in production)
+  origin: "*", // Allow all origins (adjust to specific origin in production)
 //   methods: ["GET", "POST", "OPTIONS"],
 //   allowedHeaders: ["Content-Type", "Accept"],
   credentials: false, // No credentials needed for your use case
 }));
 
 // Manually handle OPTIONS preflight requests
-app.options("https://serverbackend-psi.vercel.app/", (req, res) => {
+app.options("*", (req, res) => {
   console.log("Handling OPTIONS preflight for:", req.url);
   res.header("Access-Control-Allow-Origin", "*");
 //   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
