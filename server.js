@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 5002;
 // Explicit CORS middleware
 app.use(cors({
   origin: "*", // Allow all origins (adjust to specific origin in production)
-//   methods: ["GET", "POST", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Accept"],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Accept"],
   credentials: false, // No credentials needed for your use case
 }));
 
@@ -17,8 +17,8 @@ app.use(cors({
 app.options("*", (req, res) => {
   console.log("Handling OPTIONS preflight for:", req.url);
   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-//   res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
   res.sendStatus(204); // No content for OPTIONS
 });
 
